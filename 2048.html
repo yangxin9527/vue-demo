@@ -56,7 +56,18 @@
             left: 0;
         }
 
-
+        .gameOver{
+            /*display: none;*/
+            position: absolute;
+            top: 0;
+            width: 400px;
+            height: 400px;
+            font-size: 50px;
+            color:fff;
+            background: #444;
+            line-height: 400px;
+            text-align: center;
+        }
 
         .left1 {
             animation: 0.25s left100;
@@ -201,8 +212,8 @@
 <body>
     <div id="wrapper">
         <div class='empty' v-for="cell in arr" v-bind:class="[cell.dir,cell.animation]">{{cell.num}}</div>
-        <input type="button" value="start" class="button" id="start" v-on:click="start">
-        <p>{{msg.over}}</p>
+        <input type="button" value="restart" class="button" id="start" v-on:click="restart">
+        <p class="gameOver" v-if="msg.over">GAME OVER</p>
     </div>
 
     <!--<input type="text" id="row" class="format" maxlength="1" value="4"> * <input type="text" id="col" class="format" maxlength="1"-->
@@ -255,12 +266,14 @@
                 if (filled != -1) {
                     this.arr[app.filledArr[filled]].num = 2;
                 }
-
+            this.over();
             },
             start:function () {
                 //开始的时候创建2个2
                 this.increase();
-                this.increase();
+            },
+            restart:function(){
+                document.location.href=document.location.href;
             },
             leftBtn: function () {
                 this.arrStr=["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"];
@@ -335,6 +348,9 @@
                 var y = 4;
 
                 for(var i=0;i<arrLength-1;i++){
+                    if(this.arr[i].num==""){
+                        return;
+                    }
                     if(i<arrLength-4){
                         //当第一个个等于第二个 且 不是错开的情况
                         if(this.arr[i].num==this.arr[i+1].num&& ((i+1) % x)){
@@ -353,7 +369,9 @@
                 }
 
                 if(overNum==0){
-                   this.msg.over="over"
+                   this.msg.over="over";
+                }else{
+                     this.msg.over="";
                 }
             }
         },
@@ -396,27 +414,27 @@
             switch (e.keyCode) {
                 case 37:
                     app.leftBtn();
+                    app.increase();
                     break;
                 case 38: console.log("↑");
                      app.topBtn();
+                    app.increase();
                     break;
                 case 39: console.log("→");
                     app.rightBtn();
+                    app.increase();
                     break;
                 case 40: console.log("↓");
                     app.bottomBtn();
+                    app.increase();
                     break;
-                case 32: console.log("Space"); init(); break;
-                case 13: console.log("Enter"); init();
             }
         }
-        app.increase();
-        app.increase();
-        app.over();
+      
 
 
     };
-
+ app.start()
 </script>
 <script>
 
