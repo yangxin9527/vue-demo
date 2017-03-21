@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+
+
+        .filled {
+            background: blue
+        }
+
+
+
+        .button {
+            width: 105px;
+            height: 24px;
+        }
+
+
+
+        .format {
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+            text-align: center;
+        }
+
+
+
+        #wrapper {
+            width: 400px;
+            /*margin: 200px 400px*/
+        }
+
+
+
+        #wrapper>div {
+            display: inline-block;
+            vertical-align: top;
+            width: 100px;
+            height: 100px;
+            background: #d0e2f5;
+            text-align: center;
+            line-height: 100px;
+            font-size: 50px;
+            outline: 1px solid;
+            position: relative;
+            top: 0;
+            left: 0;
+        }
+
+
+
+        .left1 {
+            animation: 0.25s left100;
+        }
+
+
+
+        .left2 {
+            animation: 0.5s left200;
+        }
+
+
+
+        .left3 {
+            animation: 0.75s left300;
+        }
+
+
+
+        .left4 {
+            animation: 1s left400;
+        }
+
+        @keyframes left100 {
+            from {
+                left: 0px;
+            }
+            to {
+                left: -100px;
+            }
+        }
+
+        @keyframes left200 {
+            from {
+                left: 0px;
+            }
+            to {
+                left: -200px;
+            }
+        }
+
+        @keyframes left300 {
+            from {
+                left: 0px;
+            }
+            to {
+                left: -300px;
+            }
+        }
+
+        @keyframes left400 {
+            from {
+                left: 0px;
+            }
+            to {
+                left: -400px;
+            }
+        }
+
+
+
+        .change {
+            animation: 1s change;
+        }
+
+        @keyframes change {
+            from {
+
+                background-color: #333
+            }
+            to {
+                background-color: blue
+            }
+        }
+
+
+
+        .change1 {
+            animation: 1s change1;
+        }
+
+        @keyframes change1 {
+            from {
+
+                background-color: #333
+            }
+            to {
+                background-color: blue
+            }
+        }
+
+
+
+        .change2 {
+            animation: 1s change2;
+        }
+
+        @keyframes change2 {
+            from {
+
+                background-color: #fff
+            }
+            to {
+                background-color: gold
+            }
+        }
+
+
+
+        .change3 {
+            animation: 1s change3;
+        }
+
+        @keyframes change3 {
+            from {
+
+                background-color: lightblue
+            }
+            to {
+                background-color: lightcoral
+            }
+        }
+
+
+
+        .change4 {
+            animation: 1s change4;
+        }
+
+        @keyframes change4 {
+            from {
+
+                background-color: indigo
+            }
+            to {
+                background-color: goldenrod
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+        <div class='empty' v-for="cell in arr" v-bind:class="[cell.dir,cell.animation]">{{cell.num}}</div>
+        <input type="button" value="start" class="button" id="start" v-on:click="start">
+        <p>{{msg.over}}</p>
+    </div>
+
+    <!--<input type="text" id="row" class="format" maxlength="1" value="4"> * <input type="text" id="col" class="format" maxlength="1"-->
+        <!--value="4">-->
+
+</body>
+<!--<script src="./vue.js"></script>-->
+<script src="http://cdn.bootcss.com/vue/2.2.1/vue.js"></script>
+<script>
+    var app = new Vue({
+        el: '#wrapper',
+        data: {
+            arr: [
+                { num: "", index: 0 },
+                { num: "", index: 1 },
+                { num: "", index: 2 },
+                { num: "", index: 3 },
+                { num: "", index: 4 },
+                { num: "", index: 5 },
+                { num: "", index: 6 },
+                { num: "", index: 7 },
+                { num: "", index: 8 },
+                { num: "", index: 9 },
+                { num: "", index: 10 },
+                { num: "", index: 11 },
+                { num: "", index: 12 },
+                { num: "", index: 13 },
+                { num: "", index: 14 },
+                { num: "", index: 15 }
+            ],
+            arrStr:"",
+            filledArr: [
+
+            ],
+            change: {
+                change4: "change1",
+                change8: "change2",
+                change16: "change3",
+                change32: "change4"
+            },
+            msg:{
+                over:""
+            }
+
+
+        },
+        methods: {
+            increase: function () {
+                var filled = random();
+                if (filled != -1) {
+                    this.arr[app.filledArr[filled]].num = 2;
+                }
+
+            },
+            start:function () {
+                //开始的时候创建2个2
+                this.increase();
+                this.increase();
+            },
+            leftBtn: function () {
+                this.arrStr=["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"];
+                this.operation();
+            },
+            rightBtn: function () {
+                this.arrStr=["15", "14", "13", "12", "11", "10", "9", "8", "7", "6", "5", "4", "3", "2", "1", "0"];
+//                this.arrStr=this.arrStr.split(',')
+//                 var arrL = this.arr.length;
+//                for (var i = 0; i < arrL; i++) {
+//                    this.arr[i].index= this.arrStr[i];
+//                };
+                this.operation();
+            },
+            bottomBtn: function () {
+                this.arrStr=["12", "8", "4", "0", "13", "9", "5", "1", "14", "10", "6", "2", "15", "11", "7", "3"];
+
+                this.operation();
+            },
+            topBtn: function () {
+
+                this.arrStr=["3", "7", "11", "15", "2", "6", "10", "14", "1", "5", "9", "13", "0", "4", "8", "12"];
+
+                this.operation();
+            },
+            operation:function () {
+                var x = 4;
+                var y = 4;
+                for (var i = 0; i < y; i++) {
+                    //遍历去掉0
+                    //newArr=[{num:2,index,dir:left100;}]
+                    var newArr = [];
+                    var index = 0;
+                    for (var j = 0; j < x; j++) {
+                        //第一个等于第二个数
+                        if (this.arr[this.arrStr[indexNum = i * x + j]].num == "") {
+                            index++;
+                        } else {
+                            newArr.push({
+                                num: this.arr[this.arrStr[indexNum = i * x + j]].num,
+                                dir: "left" + index,
+                                index: i * x + j
+                            });
+                        }
+                        if (j == x - 1) {
+                            for (var k = 0; k < x; k++) {
+                                if (newArr[k]) {
+                                    //判断运动方向
+                                    // this.arr[newArr[k].index].dir = newArr[k].dir;
+                                }
+                                if (newArr[k]) {
+                                    this.arr[this.arrStr[indexNum = i * (x) + k]].num = newArr[k].num;
+                                } else {
+                                    this.arr[this.arrStr[indexNum = i * (x) + k]].num = "";
+                                }
+                            }
+                        }
+                    };
+                    for (var j = 0; j < x - 1; j++) {
+                        if (this.arr[this.arrStr[indexNum =i * 4 + j]].num && this.arr[this.arrStr[indexNum =i * 4 + j]].num == this.arr[this.arrStr[indexNum =i * 4 + j + 1]].num) {
+                            this.arr[this.arrStr[indexNum =i * 4 + j]].num *= 2;
+                            this.arr[this.arrStr[indexNum =i * 4 + j]].animation = this.change["change" + this.arr[i * 4 + j].num];
+                            this.arr[this.arrStr[indexNum =i * 4 + j + 1]].num = "";
+                        }
+                    }
+                }
+            },
+            over:function () {
+                var arrLength=this.arr.length;
+                var overNum=0;
+                var x = 4;
+                var y = 4;
+
+                for(var i=0;i<arrLength-1;i++){
+                    if(i<arrLength-4){
+                        //当第一个个等于第二个 且 不是错开的情况
+                        if(this.arr[i].num==this.arr[i+1].num&& ((i+1) % x)){
+                            overNum=1;
+                            break;
+                        }else if(this.arr[i].num==this.arr[i+4].num){
+                            overNum=1;
+                            break;
+                        }
+                    }else{
+                        if(this.arr[i].num==this.arr[i+1].num){
+                            overNum=1;
+                            break;
+                        }
+                    }
+                }
+
+                if(overNum==0){
+                   this.msg.over="over"
+                }
+            }
+        },
+        computed: {
+            substrVue: function () {
+                return this.arrStr.split(',')
+            }
+        }
+    });
+
+
+
+    function random() {
+        var arrLength = app.arr.length;
+        app.filledArr = [];
+        for (var i = 0; i < arrLength; i++) {
+            if (app.arr[i].num == "") {
+                app.filledArr.push(i);
+            }
+        };
+        if (app.filledArr.length == 0) {
+            return "-1";
+        } else {
+            return Math.floor(Math.random() * parseInt(app.filledArr.length));
+        }
+    }
+    //克隆数组
+    function copyArr(arr) {
+        return arr.map((e) => {
+            if (typeof e === 'object') {
+                return Object.assign({}, e)
+            } else {
+                return e
+            }
+        })
+    }
+    document.onkeydown = function (event) {
+        var e = event || window.event || arguments.callee.caller.arguments[0];
+        if (e) { // 按 Esc 
+            switch (e.keyCode) {
+                case 37:
+                    app.leftBtn();
+                    break;
+                case 38: console.log("↑");
+                     app.topBtn();
+                    break;
+                case 39: console.log("→");
+                    app.rightBtn();
+                    break;
+                case 40: console.log("↓");
+                    app.bottomBtn();
+                    break;
+                case 32: console.log("Space"); init(); break;
+                case 13: console.log("Enter"); init();
+            }
+        }
+        app.increase();
+        app.increase();
+        app.over();
+
+
+    };
+
+</script>
+<script>
+
+</script>
+
+</html>
